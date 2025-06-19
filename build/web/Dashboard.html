@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="login.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: linear-gradient(to right, #1a1a1a, #333);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .header h1, .header h5 {
+            flex: 1 1 100%;
+            margin: 0;
+        }
+
+        .header button {
+            padding: 10px 20px;
+            margin: 8px;
+            font-size: 16px;
+            text-decoration: none;
+            color: white;
+            background-color: #3498db; /* New button color */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s; /* Added transition for animation */
+        }
+
+        .header button:hover {
+            background-color: #2980b9; /* Darker color on hover */
+            transform: scale(1.05); /* Added scaling effect on hover */
+        }
+
+        .header button:not(:last-child) {
+            border-right: 1px solid white;
+        }
+
+        .header a {
+            text-decoration: none;
+            color: white;
+        }
+        
+        .header button:last-child {
+            margin-left: 10px; /* Adjust the margin-left for space before the Logout button */
+        }
+
+        hr {
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>ONLINE MOVIE TICKET BOOKING</h1>
+        <h5>ADMIN DASHBOARD</h5>
+        <button><a href="UpdatemovieFE.html">Update Movie Details</a></button>
+        <button><a href="DeleteFE.html">Delete Movie Details</a></button>
+        <button><a href="ViewallmovieFE.html">View All Movies Details</a></button>
+        <form action="managebookings" method="post"><button type="submit">Manage Bookings</button></form>
+        <br>
+        <button><a href="index.html">Logout</a></button>
+    </div>
+
+    <hr>
+
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4caf50;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #555;
+            text-align: left;
+        }
+
+        input, select {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: calc(100% - 20px);
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #seatSelector {
+            display: grid;
+            gap: 5px;
+            grid-template-columns: repeat(5, 1fr);
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .seat {
+            width: 30px;
+            height: 30px;
+            background-color: #d3d3d3;
+            border: 1px solid #aaa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+            font-size: 14px;
+            transition: background-color 0.3s, transform 0.3s;
+            transform-origin: center;
+        }
+
+        .seat.selected {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .seat.booked {
+            background-color: #ffcccb;
+            color: #555;
+            cursor: not-allowed;
+        }
+
+        #totalPrice {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        .error {
+            color: #ff5757;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+    <title>Movie Ticket Booking</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Movie Ticket Booking</h1>
+<form id="bookingForm" action="sbookingBE" method="post">
+
+              <label for="userName">Your Name:</label>
+            <input type="text" id="userName" name="cname" required>
+            
+            <label for="movies">Select Movie:</label>
+            <select id="movies" name="mname" required>
+                <option value="DDLJ">DDLJ</option>
+                <option value="JAWAN">JAWAN</option>
+                <option value="OPPENHEIMER">OPPENHEIMER</option>
+                <option value="SPIDERMAN : FAR FROM HOME">SPIDERMAN : FAR FROM HOME</option>
+                <option value="PK">PK</option>
+                <option value="HUNGER GAMES">HUNGER GAMES</option>
+                <option value="GHOST">GHOST</option>
+                <option value="BAANADARIYALLI">BAANADARIYALLI</option>
+                <option value="BARBIE">BARBIE</option>
+            </select>
+
+            <label for="theatres">Select Theatre:</label>
+            <select id="theatres" name="tname" required>
+                <option value="PVRCinemas">PVR Cinemas</option>
+                <option value="INOX">INOX</option>
+                <option value="Cinepolis">Cinepolis</option>
+                <option value="UrvashiTheatre">Urvashi Theatre</option>
+                <option value="VaibhavTheatre">Vaibhav Theatre</option>
+                <option value="RocklineMallCinemas">Rockline Mall Cinemas</option>
+                <option value="GarudaMallMultiplex">Garuda Mall Multiplex</option>
+            </select>
+
+            <label for="date">Select Date:</label>
+            <input type="date" id="date" name="mdate" required>
+
+            <label for="showTime">Select Show Time:</label>
+            <select id="showTime" name="stime" required>
+                <option value="9">9:00</option>
+                <option value="12">12:00</option>
+                <option value="3">15:00</option>
+                <option value="6">18:00</option>
+                <option value="9">21:00</option>
+            </select>
+
+            <label for="seatType">Select Seat Type:</label>
+            <select id="seatType" name="stype" required>
+                <option value="classic">Classic-> 150/seat</option>
+                <option value="prime">Prime-> 200/seat</option>
+                <option value="recliner">Recliner-> 250/seat</option>
+            </select>
+
+            <div id="seatSelector"></div>
+
+            <label for="totalPrice">Total Price:</label>
+            <input type="text" id="totalPriceInput" name="tprice" readonly>
+
+            <label for="paymentMode">Select Payment Mode:</label>
+            <select id="paymentMode" onchange="handlePaymentMode()" required>
+                <option value="credit">Credit</option>
+                <option value="debit">Debit</option>
+                <option value="cash">Cash</option>
+                <option value="upi">UPI</option>
+            </select>
+
+            <div id="cardDetails" class="error">
+                <label for="cardNumber">Card Number:</label>
+                <input type="text" id="cardNumber">
+            </div>
+
+          
+
+            <button type="submit" >Book Ticket</button>
+
+            <div id="selectedSeats" class="error"></div>
+        </form>
+    </div>
+
+    <script>
+        const totalSeats = 25;
+        const bookedSeats = [2, 5, 8, 11, 15]; 
+        const selectedSeats = new Set();
+
+        function bookTicket() {
+            alert("Ticket booked successfully!");
+        }
+
+        function updateTotalPrice() {
+            const seatType = document.getElementById("seatType").value;
+            const selectedSeats = document.querySelectorAll(".seat.selected");
+            const totalPrice = selectedSeats.length * getPriceBySeatType(seatType);
+            document.getElementById("totalPriceInput").value = `₹${totalPrice}`;
+        }
+
+        function getPriceBySeatType(seatType) {
+            const seatPrices = {
+                classic: 150,
+                prime: 200,
+                recliner: 250
+            };
+            return seatPrices[seatType] || 0;
+        }
+
+        function createSeatSelector() {
+            const seatSelector = document.getElementById("seatSelector");
+
+            for (let i = 1; i <= totalSeats; i++) {
+                const seat = document.createElement("div");
+                seat.classList.add("seat");
+                seat.textContent = i;
+
+                seat.addEventListener("click", function () {
+                    if (!seat.classList.contains("booked")) {
+                        seat.classList.toggle("selected");
+                        updateTotalPrice();
+                        updateSelectedSeats();
+                    }
+                });
+
+                if (bookedSeats.includes(i)) {
+                    seat.classList.add("booked");
+                }
+
+                seatSelector.appendChild(seat);
+            }
+        }
+
+        function handlePaymentMode() {
+            const paymentMode = document.getElementById("paymentMode").value;
+            const cardDetails = document.getElementById("cardDetails");
+
+            if (paymentMode === "credit") {
+                const cardNumber = prompt("Enter Card Number:");
+                if (cardNumber !== null) {
+                    document.getElementById("cardNumber").value = cardNumber;
+                }
+            }
+
+            if (paymentMode === "credit" || paymentMode === "debit") {
+                cardDetails.style.display = "block";
+            } else {
+                cardDetails.style.display = "none";
+            }
+        }
+
+        function updateSelectedSeats() {
+            const selectedSeatsContainer = document.getElementById("selectedSeats");
+            const selectedSeatsArray = Array.from(document.querySelectorAll(".seat.selected")).map(seat => seat.textContent);
+            selectedSeatsContainer.textContent = `Selected Seats: ${selectedSeatsArray.join(', ')}`;
+        }
+
+        createSeatSelector();
+    </script>
+</body>
+</html>
+
